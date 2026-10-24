@@ -3,7 +3,7 @@ title: "IDCFクラウドのランサムウェア被害（2026年10月）を公�
 emoji: "🔐"
 type: "tech"
 topics: ["security", "ransomware", "cloud", "incident", "backup"]
-published: true
+published: false
 ---
 
 ## はじめに
