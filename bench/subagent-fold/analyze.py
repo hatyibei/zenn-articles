@@ -66,8 +66,8 @@ for t, d in per_task.items():
 import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
 fig, ax = plt.subplots(1, 4, figsize=(14, 3.6))
 lab = ["A: orchestrator+subagents", "B: single loop+skills"]; col = ["#d9822b", "#2b7bd9"]
-for i, (k, title) in enumerate([("success_rate", "Task success rate"), ("grader_score_mean", "Mean rubric score (1-5)"), ("latency_mean", "Mean latency [s]"), ("cost_mean", "Mean cost / task [USD]")]):
+for i, (k, title) in enumerate([("success_rate", "Strict rubric success rate"), ("grader_score_mean", "Mean rubric score (1-5)"), ("latency_mean", "Mean latency [s]"), ("cost_mean", "Mean cost / task [USD]")]):
     v = [summary[a][k] for a in ARCHS]; ax[i].bar(["A", "B"], v, color=col); ax[i].set_title(title)
     for j, x in enumerate(v): ax[i].text(j, x, f"{x:.3f}" if k == "cost_mean" else f"{x:.2f}", ha="center", va="bottom")
-fig.suptitle(f"Mock EC support agent, 12 tasks x 3 runs, {bench.AGENT_MODEL} (A=orchestrator+subagents, B=single loop+skills)", fontsize=10)
+fig.suptitle(f"Mock EC support agent (mock tools, zero tool latency), 12 tasks x 3 runs, {bench.AGENT_MODEL}. A=orchestrator+subagents, B=single loop+skills. Per-task cost excludes grader.", fontsize=9)
 plt.tight_layout(); plt.savefig("comparison.png", dpi=130)
