@@ -32,8 +32,9 @@ def regrade(rec):
     rec["grader_calls_v2"] = list(calls); rec["grader_cost_v2"] = bench.cost(list(calls))
     rec["success"] = bool(rec["det_pass"] and rec["grade"]["pass"])
     return rec
-recs = [json.loads(l) for l in open("results/runs_grader_v1.jsonl")]
-with ThreadPoolExecutor(6) as ex: recs = list(ex.map(regrade, recs))
-open("results/runs.jsonl", "w").write("".join(json.dumps(r, ensure_ascii=False, default=str) + "\n" for r in recs))
-print("grader v2 cost $%.4f" % sum(r["grader_cost_v2"] for r in recs))
-print("v1 vs v2 pass flips:", collections.Counter((r["arch"], bool(r["grade_v1"].get("pass")), r["grade"]["pass"]) for r in recs))
+if __name__ == "__main__":
+    recs = [json.loads(l) for l in open("results/runs_grader_v1.jsonl")]
+    with ThreadPoolExecutor(6) as ex: recs = list(ex.map(regrade, recs))
+    open("results/runs.jsonl", "w").write("".join(json.dumps(r, ensure_ascii=False, default=str) + "\n" for r in recs))
+    print("grader v2 cost $%.4f" % sum(r["grader_cost_v2"] for r in recs))
+    print("v1 vs v2 pass flips:", collections.Counter((r["arch"], bool(r["grade_v1"].get("pass")), r["grade"]["pass"]) for r in recs))
