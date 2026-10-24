@@ -4,7 +4,6 @@ from concurrent.futures import ThreadPoolExecutor
 import bench
 
 GRADER_MODEL = "claude-haiku-5-5"
-N = int(sys.argv[1]) if len(sys.argv) > 1 else 3
 BUDGET_STOP = 3.5
 TASKS = json.load(open("tasks.json"))
 OUT = "results/runs.jsonl"
@@ -64,7 +63,9 @@ def job(arch, task, rep):
         print(f"{arch:9s} {task['id']} r{rep} lat={rec['latency'] and round(rec['latency'],1)}s calls={rec['api_calls']} "
               f"${rec['cost_usd']:.4f} det={rec['det_pass']} g={g.get('score')} ok={rec['success']} total=${spent[0]:.3f}", flush=True)
 
-jobs = [(a, t, r) for r in range(N) for t in TASKS for a in ("A_multi", "B_single")]
-random.seed(0); random.shuffle(jobs)
-with ThreadPoolExecutor(4) as ex: list(ex.map(lambda j: job(*j), jobs))
-print("TOTAL SPENT (agents+grader) $%.3f" % spent[0])
+if __name__ == "__main__":
+    N = int(sys.argv[1]) if len(sys.argv) > 1 else 3
+    jobs = [(a, t, r) for r in range(N) for t in TASKS for a in ("A_multi", "B_single")]
+    random.seed(0); random.shuffle(jobs)
+    with ThreadPoolExecutor(4) as ex: list(ex.map(lambda j: job(*j), jobs))
+    print("TOTAL SPENT (agents+grader) $%.3f" % spent[0])
