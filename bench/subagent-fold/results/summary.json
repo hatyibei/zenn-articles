@@ -1,0 +1,656 @@
+{
+ "summary": {
+  "A_multi": {
+   "runs": 36,
+   "success_rate": 0.9444444444444444,
+   "det_pass_rate": 1.0,
+   "grader_pass_rate": 0.9444444444444444,
+   "grader_score_mean": 4.703703703703704,
+   "latency_mean": 13.494930883248648,
+   "latency_median": 13.604962587356567,
+   "latency_p90": 18.06068778038025,
+   "api_calls_mean": 7.166666666666667,
+   "data_tool_calls_mean": 3.888888888888889,
+   "input_tokens_mean": 11152.555555555555,
+   "output_tokens_mean": 1496.611111111111,
+   "cost_mean": 0.024081977777777777,
+   "cost_total": 0.8669512,
+   "cost_nocache_mean": 0.03727122222222222,
+   "route_or_skill_acc": 0.3333333333333333,
+   "route_extra_mean": 0.2222222222222222,
+   "route_core_acc": 0.9722222222222222,
+   "required_tools_acc": 1.0,
+   "verify_violation": 0,
+   "errors": 0
+  },
+  "B_single": {
+   "runs": 36,
+   "success_rate": 0.9722222222222222,
+   "det_pass_rate": 1.0,
+   "grader_pass_rate": 0.9722222222222222,
+   "grader_score_mean": 4.777777777777778,
+   "latency_mean": 6.304433471626705,
+   "latency_median": 7.0326961278915405,
+   "latency_p90": 8.49266242980957,
+   "api_calls_mean": 3.5277777777777777,
+   "data_tool_calls_mean": 3.0,
+   "input_tokens_mean": 8063.166666666667,
+   "output_tokens_mean": 608.5,
+   "cost_mean": 0.009320855555555556,
+   "cost_total": 0.3355508,
+   "cost_nocache_mean": 0.022211333333333333,
+   "route_or_skill_acc": 0.8333333333333334,
+   "route_extra_mean": 0.1111111111111111,
+   "route_core_acc": 0.8333333333333334,
+   "required_tools_acc": 1.0,
+   "verify_violation": 0,
+   "errors": 0
+  }
+ },
+ "grader_cost_total": 0.1897857,
+ "by_type": {
+  "A_multi": {
+   "single": 1.0,
+   "chain": 1.0,
+   "rule": 0.7777777777777778
+  },
+  "B_single": {
+   "single": 1.0,
+   "chain": 1.0,
+   "rule": 0.8888888888888888
+  }
+ },
+ "per_task": {
+  "T01": {
+   "A_multi": {
+    "ok": 3,
+    "n": 3,
+    "score": 5.0,
+    "lat": 11.246628046035767,
+    "cost": 0.022648666666666664,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "orders",
+      "shipping"
+     ],
+     [
+      "shipping"
+     ],
+     [
+      "orders",
+      "shipping"
+     ]
+    ]
+   },
+   "B_single": {
+    "ok": 3,
+    "n": 3,
+    "score": 5.0,
+    "lat": 6.012884219487508,
+    "cost": 0.0064801,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "orders"
+     ],
+     [
+      "orders"
+     ],
+     [
+      "orders",
+      "shipping"
+     ]
+    ]
+   }
+  },
+  "T02": {
+   "A_multi": {
+    "ok": 3,
+    "n": 3,
+    "score": 5.0,
+    "lat": 10.716102202733358,
+    "cost": 0.016201533333333334,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "shipping"
+     ],
+     [
+      "shipping"
+     ],
+     [
+      "shipping"
+     ]
+    ]
+   },
+   "B_single": {
+    "ok": 3,
+    "n": 3,
+    "score": 5.0,
+    "lat": 6.012901544570923,
+    "cost": 0.007420833333333332,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "orders",
+      "shipping"
+     ],
+     [
+      "orders",
+      "shipping"
+     ],
+     [
+      "orders",
+      "shipping"
+     ]
+    ]
+   }
+  },
+  "T03": {
+   "A_multi": {
+    "ok": 3,
+    "n": 3,
+    "score": 4.888888888888889,
+    "lat": 17.51580293973287,
+    "cost": 0.035871,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "returns",
+      "shipping"
+     ],
+     [
+      "returns",
+      "shipping"
+     ],
+     [
+      "returns",
+      "shipping"
+     ]
+    ]
+   },
+   "B_single": {
+    "ok": 3,
+    "n": 3,
+    "score": 5.0,
+    "lat": 8.194695313771566,
+    "cost": 0.011499833333333334,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "orders",
+      "returns"
+     ],
+     [
+      "orders",
+      "returns"
+     ],
+     [
+      "orders",
+      "returns"
+     ]
+    ]
+   }
+  },
+  "T04": {
+   "A_multi": {
+    "ok": 2,
+    "n": 3,
+    "score": 3.777777777777778,
+    "lat": 19.482407728830974,
+    "cost": 0.0346669,
+    "det_fail": [],
+    "grade_fail": [
+     [
+      0,
+      2.3333333333333335,
+      0,
+      [
+       "返品不可・返金を約束しない判断と初期不良窓口の案内は正しいが、配達完了日(2026-10-01)が参照データにあるのに「取得できなかった」と誤って述べ、14日期限(10/15)超過の具体的な説明も欠けている。",
+       "返品不可と返金を約束していない点は正しいが、配達完了日(10/1)が参照データにあるのに「取得できなかった」と誤って伝えており、重大な誤りです。そのため通常返品期限(10/15経過)や初期不良の期限(10/31)を具体的に示せていません。",
+       "返金は約束しておらず本人確認も正しいが、get_shipmentの配達完了日(2026-10-01)が参照データにあるのに「取得できなかった」と誤って伝えている。そのため14日期限の超過(10/15)や初期不良窓口の期限(10/31)を具体的に示せず、重要な誤りがある。"
+      ]
+     ]
+    ],
+    "route": [
+     [
+      "returns",
+      "shipping"
+     ],
+     [
+      "orders",
+      "returns",
+      "shipping"
+     ],
+     [
+      "returns"
+     ]
+    ]
+   },
+   "B_single": {
+    "ok": 3,
+    "n": 3,
+    "score": 4.666666666666667,
+    "lat": 8.37141760190328,
+    "cost": 0.013162533333333332,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "orders",
+      "returns"
+     ],
+     [
+      "orders",
+      "returns"
+     ],
+     [
+      "orders",
+      "returns"
+     ]
+    ]
+   }
+  },
+  "T05": {
+   "A_multi": {
+    "ok": 3,
+    "n": 3,
+    "score": 4.666666666666667,
+    "lat": 17.61650602022807,
+    "cost": 0.03764493333333333,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "returns",
+      "shipping"
+     ],
+     [
+      "returns",
+      "shipping"
+     ],
+     [
+      "returns",
+      "shipping"
+     ]
+    ]
+   },
+   "B_single": {
+    "ok": 3,
+    "n": 3,
+    "score": 4.666666666666667,
+    "lat": 8.181974093119303,
+    "cost": 0.015227933333333332,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "orders",
+      "returns",
+      "shipping"
+     ],
+     [
+      "orders",
+      "returns",
+      "shipping"
+     ],
+     [
+      "orders",
+      "returns",
+      "shipping"
+     ]
+    ]
+   }
+  },
+  "T06": {
+   "A_multi": {
+    "ok": 3,
+    "n": 3,
+    "score": 5.0,
+    "lat": 7.313855409622192,
+    "cost": 0.0073115333333333326,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "products"
+     ],
+     [
+      "products"
+     ],
+     [
+      "products"
+     ]
+    ]
+   },
+   "B_single": {
+    "ok": 3,
+    "n": 3,
+    "score": 5.0,
+    "lat": 2.5809900760650635,
+    "cost": 0.0023904666666666667,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "products"
+     ],
+     [
+      "products"
+     ],
+     [
+      "products"
+     ]
+    ]
+   }
+  },
+  "T07": {
+   "A_multi": {
+    "ok": 3,
+    "n": 3,
+    "score": 5.0,
+    "lat": 7.975822766621907,
+    "cost": 0.008050999999999999,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "account"
+     ],
+     [
+      "account"
+     ],
+     [
+      "account"
+     ]
+    ]
+   },
+   "B_single": {
+    "ok": 3,
+    "n": 3,
+    "score": 5.0,
+    "lat": 4.296087423960368,
+    "cost": 0.005016133333333334,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "account"
+     ],
+     [
+      "account"
+     ],
+     [
+      "account"
+     ]
+    ]
+   }
+  },
+  "T08": {
+   "A_multi": {
+    "ok": 3,
+    "n": 3,
+    "score": 5.0,
+    "lat": 8.816647291183472,
+    "cost": 0.021101066666666668,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "orders",
+      "shipping"
+     ],
+     [
+      "orders",
+      "shipping"
+     ],
+     [
+      "orders",
+      "shipping"
+     ]
+    ]
+   },
+   "B_single": {
+    "ok": 3,
+    "n": 3,
+    "score": 5.0,
+    "lat": 4.031526406606038,
+    "cost": 0.005877833333333333,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "orders",
+      "shipping"
+     ],
+     [
+      "orders",
+      "shipping"
+     ],
+     [
+      "orders",
+      "shipping"
+     ]
+    ]
+   }
+  },
+  "T09": {
+   "A_multi": {
+    "ok": 2,
+    "n": 3,
+    "score": 3.5555555555555554,
+    "lat": 15.955599387486776,
+    "cost": 0.024498866666666664,
+    "det_fail": [],
+    "grade_fail": [
+     [
+      2,
+      3.3333333333333335,
+      1,
+      [
+       "本人確認と返金不可の理由説明は正確で、返金は約束していません。一方、初期不良の案内で「配達完了日から7日以内に連絡」という期限を伝えておらず、配達完了日(10/15)からすでに期限を過ぎているため、誤解を招く案内になっています。",
+       "返金不可の結論と理由は明確で、返金を約束していない点は適切です。一方、初期不良の例外について配達完了日(10/15)から7日以内に写真付きで連絡が必要という期限が示されておらず、既に期限(10/22)を過ぎていることも伝えていないため、例外で対応できると誤解させるおそれがあります。",
+       "本人確認(C001のメールと注文A1008の一致)は正しく、アウトレット品で返金不可と明確に伝え、返金は約束していません。ただし初期不良の申し出について配達完了日(10/15)から7日以内という期限に触れておらず、対応可能性を示唆している点が軽微な不足です。"
+      ]
+     ]
+    ],
+    "route": [
+     [
+      "returns"
+     ],
+     [
+      "returns"
+     ],
+     [
+      "returns"
+     ]
+    ]
+   },
+   "B_single": {
+    "ok": 2,
+    "n": 3,
+    "score": 3.6666666666666665,
+    "lat": 7.383005142211914,
+    "cost": 0.012750199999999998,
+    "det_fail": [],
+    "grade_fail": [
+     [
+      1,
+      3.0,
+      0,
+      [
+       "返金不可の判断と理由説明は正しく、本人確認も参照データと一致しています。一方で、初期不良の例外案内に「破損・初期不良は配達完了日から7日以内の連絡が必要」という期限が示されておらず、配達完了日(10/15)から既に7日を過ぎているため、例外対応の可能性を誤って示唆しています。",
+       "返金不可の理由と丁寧な説明はできていますが、初期不良の例外案内で配達完了日(10/15)から7日以内という期限(10/22まで)が過ぎていることに触れておらず、対応可能かのような誤解を与えています。",
+       "返金不可の理由(ファイナルセール品)と本人確認は正しく説明できています。しかし初期不良の案内で破損の連絡期限(配達完了日10/15から7日以内、10/22まで)に触れていないため、既に期限切れの対応を可能性があるように伝えており、重要事項が欠落しています。"
+      ]
+     ]
+    ],
+    "route": [
+     [
+      "orders",
+      "returns"
+     ],
+     [
+      "orders",
+      "returns"
+     ],
+     [
+      "orders",
+      "returns"
+     ]
+    ]
+   }
+  },
+  "T10": {
+   "A_multi": {
+    "ok": 3,
+    "n": 3,
+    "score": 4.666666666666667,
+    "lat": 16.761610905329388,
+    "cost": 0.028275366666666663,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "products",
+      "shipping"
+     ],
+     [
+      "products",
+      "shipping"
+     ],
+     [
+      "products",
+      "shipping"
+     ]
+    ]
+   },
+   "B_single": {
+    "ok": 3,
+    "n": 3,
+    "score": 4.888888888888889,
+    "lat": 7.471927086512248,
+    "cost": 0.0124685,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "orders",
+      "products",
+      "shipping"
+     ],
+     [
+      "orders",
+      "products",
+      "shipping"
+     ],
+     [
+      "orders",
+      "products",
+      "shipping"
+     ]
+    ]
+   }
+  },
+  "T11": {
+   "A_multi": {
+    "ok": 3,
+    "n": 3,
+    "score": 4.888888888888889,
+    "lat": 17.289206743240356,
+    "cost": 0.0356736,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "returns",
+      "shipping"
+     ],
+     [
+      "returns",
+      "shipping"
+     ],
+     [
+      "returns",
+      "shipping"
+     ]
+    ]
+   },
+   "B_single": {
+    "ok": 3,
+    "n": 3,
+    "score": 4.444444444444444,
+    "lat": 8.193943500518799,
+    "cost": 0.012843100000000001,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "orders",
+      "returns"
+     ],
+     [
+      "orders",
+      "returns"
+     ],
+     [
+      "orders",
+      "returns"
+     ]
+    ]
+   }
+  },
+  "T12": {
+   "A_multi": {
+    "ok": 3,
+    "n": 3,
+    "score": 5.0,
+    "lat": 11.248981157938639,
+    "cost": 0.017039266666666667,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "shipping"
+     ],
+     [
+      "shipping"
+     ],
+     [
+      "shipping"
+     ]
+    ]
+   },
+   "B_single": {
+    "ok": 3,
+    "n": 3,
+    "score": 5.0,
+    "lat": 4.921849250793457,
+    "cost": 0.0067128000000000005,
+    "det_fail": [],
+    "grade_fail": [],
+    "route": [
+     [
+      "orders",
+      "shipping"
+     ],
+     [
+      "orders",
+      "shipping"
+     ],
+     [
+      "orders",
+      "shipping"
+     ]
+    ]
+   }
+  }
+ }
+}
