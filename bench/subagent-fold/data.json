@@ -1,0 +1,44 @@
+{
+  "today": "2026-10-24",
+  "customers": {
+    "C001": {"name": "田中 太郎", "email": "taro.tanaka@example.com", "phone_last4": "5678", "tier": "Gold", "points": 1240, "points_expiring": {"amount": 300, "date": "2026-11-30"}, "address": "東京都世田谷区…"},
+    "C002": {"name": "鈴木 花子", "email": "hanako.suzuki@example.com", "phone_last4": "1122", "tier": "Silver", "points": 380, "points_expiring": null, "address": "大阪府大阪市…"},
+    "C003": {"name": "佐藤 健二", "email": "kenji.sato@example.com", "phone_last4": "9001", "tier": "Bronze", "points": 50, "points_expiring": null, "address": "福岡県福岡市…"}
+  },
+  "orders": {
+    "A1001": {"customer_id": "C001", "ordered_at": "2026-10-20", "status": "shipped", "items": [{"sku": "APP-TS-01", "name": "オーガニックコットンTシャツ", "category": "apparel", "qty": 2, "price": 3300, "final_sale": false}], "carrier": "ヤマト運輸", "tracking_number": "YT100001"},
+    "A1002": {"customer_id": "C001", "ordered_at": "2026-10-18", "status": "shipped", "estimated_delivery_at_order_time": "2026-10-24", "items": [{"sku": "X200-WHT", "name": "ワイヤレスイヤホン X200 (ホワイト)", "category": "electronics", "qty": 1, "price": 12800, "final_sale": false}], "carrier": "ヤマト運輸", "tracking_number": "YT100002"},
+    "A1003": {"customer_id": "C002", "ordered_at": "2026-09-20", "status": "delivered", "items": [{"sku": "APP-JK-07", "name": "ウールブレンドジャケット", "category": "apparel", "qty": 1, "price": 19800, "final_sale": false}], "carrier": "佐川急便", "tracking_number": "SG200003"},
+    "A1004": {"customer_id": "C002", "ordered_at": "2026-09-26", "status": "delivered", "items": [{"sku": "EL-SW-05", "name": "スマートウォッチ W5", "category": "electronics", "qty": 1, "price": 24800, "final_sale": false}], "carrier": "ヤマト運輸", "tracking_number": "YT100004"},
+    "A1005": {"customer_id": "C003", "ordered_at": "2026-10-21", "status": "shipped", "items": [{"sku": "APP-CT-02", "name": "ダウンコート", "category": "apparel", "qty": 1, "price": 29800, "final_sale": false}], "carrier": "佐川急便", "tracking_number": "SG200005"},
+    "A1006": {"customer_id": "C001", "ordered_at": "2026-10-22", "status": "shipped", "items": [{"sku": "HOME-MG-02", "name": "波佐見焼マグカップ 2個セット", "category": "home", "qty": 1, "price": 4400, "final_sale": false}], "carrier": "日本郵便", "tracking_number": "JP300006"},
+    "A1007": {"customer_id": "C003", "ordered_at": "2026-10-23", "status": "processing", "items": [{"sku": "HOME-BL-01", "name": "ブランケット", "category": "home", "qty": 1, "price": 6600, "final_sale": false}], "carrier": null, "tracking_number": null},
+    "A1008": {"customer_id": "C001", "ordered_at": "2026-10-10", "status": "delivered", "items": [{"sku": "APP-SK-09", "name": "プリーツスカート (アウトレット)", "category": "apparel", "qty": 1, "price": 2900, "final_sale": true}], "carrier": "ヤマト運輸", "tracking_number": "YT100008"},
+    "A1009": {"customer_id": "C002", "ordered_at": "2026-10-17", "status": "delivered", "items": [{"sku": "HOME-PL-03", "name": "有田焼プレート 4枚組", "category": "home", "qty": 1, "price": 8800, "final_sale": false}], "carrier": "日本郵便", "tracking_number": "JP300009"}
+  },
+  "shipments": {
+    "YT100001": {"carrier": "ヤマト運輸", "status": "in_transit", "shipped_at": "2026-10-22", "estimated_delivery": "2026-10-25", "delivered_at": null, "events": ["10/22 発送", "10/23 羽田ベース通過"]},
+    "YT100002": {"carrier": "ヤマト運輸", "status": "delayed", "shipped_at": "2026-10-21", "estimated_delivery": "2026-10-28", "delivered_at": null, "events": ["10/21 発送", "10/23 台風の影響で中継拠点にて保留", "10/24 配達予定日を10/28に変更"]},
+    "SG200003": {"carrier": "佐川急便", "status": "delivered", "shipped_at": "2026-09-25", "estimated_delivery": null, "delivered_at": "2026-09-28", "events": ["9/25 発送", "9/28 配達完了"]},
+    "YT100004": {"carrier": "ヤマト運輸", "status": "delivered", "shipped_at": "2026-09-29", "estimated_delivery": null, "delivered_at": "2026-10-01", "events": ["9/29 発送", "10/1 配達完了"]},
+    "SG200005": {"carrier": "佐川急便", "status": "in_transit", "shipped_at": "2026-10-23", "estimated_delivery": "2026-10-26", "delivered_at": null, "events": ["10/23 発送"]},
+    "JP300006": {"carrier": "日本郵便", "status": "in_transit", "shipped_at": "2026-10-23", "estimated_delivery": "2026-10-27", "delivered_at": null, "events": ["10/23 引受"]},
+    "YT100008": {"carrier": "ヤマト運輸", "status": "delivered", "shipped_at": "2026-10-12", "estimated_delivery": null, "delivered_at": "2026-10-15", "events": ["10/12 発送", "10/15 配達完了"]},
+    "JP300009": {"carrier": "日本郵便", "status": "delivered", "shipped_at": "2026-10-20", "estimated_delivery": null, "delivered_at": "2026-10-22", "events": ["10/20 引受", "10/22 配達完了"]}
+  },
+  "return_policies": {
+    "apparel": "衣料品: 商品到着日(配達完了日)から30日以内、未着用・タグ付きであれば返品可能。返金は返品商品の到着・検品後に元の支払方法へ。アウトレット/ファイナルセール品(final_sale=true)は返品・返金不可(初期不良を除く)。",
+    "electronics": "電子機器: 商品到着日(配達完了日)から14日以内、かつ未開封の場合のみ返品可能。開封済みの場合は初期不良のみ対応(到着日から30日以内、メーカー保証窓口案内)。お客様都合の開封後返品は不可。",
+    "home": "生活雑貨: 商品到着日(配達完了日)から30日以内、未使用であれば返品可能。",
+    "damaged": "配送中の破損・初期不良(全カテゴリ共通): 配達完了日から7日以内に、破損箇所の写真を添えて連絡すること。確認後、同一商品への無償交換または返金(お客様が選択)。送料は当社負担。写真確認前に返金を確約してはならない。",
+    "general": "返金の約束は必ず該当カテゴリの返品ポリシーと注文情報(配達完了日・final_sale)を確認してから行う。期限は配達完了日を起算日とする(注文日ではない)。"
+  },
+  "inventory": {
+    "X200-BLK": {"name": "ワイヤレスイヤホン X200 (ブラック)", "stock": 0, "restock_date": "2026-11-02", "price": 12800},
+    "X200-WHT": {"name": "ワイヤレスイヤホン X200 (ホワイト)", "stock": 12, "restock_date": null, "price": 12800},
+    "HOME-MG-02": {"name": "波佐見焼マグカップ 2個セット", "stock": 0, "restock_date": "2026-11-05", "price": 4400},
+    "EL-SW-05": {"name": "スマートウォッチ W5", "stock": 3, "restock_date": null, "price": 24800},
+    "APP-JK-07": {"name": "ウールブレンドジャケット", "stock": 5, "restock_date": null, "price": 19800},
+    "HOME-BL-01": {"name": "ブランケット", "stock": 8, "restock_date": null, "price": 6600}
+  }
+}
