@@ -22,6 +22,23 @@ SKILL_DESC = {
     "account": "ポイント残高・会員ランク・登録情報",
 }
 client = anthropic.Anthropic(max_retries=6)
+# v2 (追加実験用): SDK の自動リトライを切り、自前でリトライ回数と待ち時間を記録する
+_raw_client = anthropic.Anthropic(max_retries=0)
+RETRY_STATS = {"retries": 0, "wait_sec": 0.0, "by_status": {}}
+_rs_lock = threading.Lock()
+def create_with_retry(**kw):
+    for attempt in range(7):
+        try:
+            return _raw_client.messages.create(**kw)
+        except (anthropic.RateLimitError, anthropic.InternalServerError, anthropic.APIConnectionError, anthropic.APIStatusError) as e:
+            code = getattr(e, "status_code", None) or "conn"
+            if isinstance(e, anthropic.APIStatusError) and code not in (429, 500, 502, 503, 529): raise
+            w = min(30, 1.0 * 2 ** attempt)
+            with _rs_lock:
+                RETRY_STATS["retries"] += 1; RETRY_STATS["wait_sec"] += w
+                RETRY_STATS["by_status"][str(code)] = RETRY_STATS["by_status"].get(str(code), 0) + 1
+            time.sleep(w)
+    raise RuntimeError("retries exhausted")
 
 # ---------------- thin mock tools (deterministic) ----------------
 def verify_customer(email, order_id=None, phone_last4=None):
@@ -83,9 +100,9 @@ BASE_RULES = f"""あなたはECショップ「ハチベエストア」のカス�
 # ---------------- generic tool loop ----------------
 class Trace:
     def __init__(self): self.lock = threading.Lock(); self.calls = []; self.tools = []; self.usage = []
-    def add_call(self, agent, model, u, dt):
+    def add_call(self, agent, model, u, dt, stop_reason=None):
         with self.lock:
-            self.calls.append(dict(agent=agent, model=model, input=u.input_tokens, output=u.output_tokens,
+            self.calls.append(dict(agent=agent, model=model, stop_reason=stop_reason, input=u.input_tokens, output=u.output_tokens,
                 cache_write=u.cache_creation_input_tokens or 0, cache_read=u.cache_read_input_tokens or 0, sec=round(dt, 3)))
     def add_tool(self, agent, name, args, result):
         with self.lock: self.tools.append(dict(t=time.time(), agent=agent, name=name, args=args, result=result))
@@ -96,9 +113,9 @@ def run_loop(agent, system, tools, user, trace, extra_tools=None, max_turns=10, 
     msgs = [{"role": "user", "content": user}]
     for turn in range(max_turns):
         t = time.time()
-        r = client.messages.create(model=model, max_tokens=MAX_TOKENS, system=system, tools=tools, messages=msgs,
+        r = create_with_retry(model=model, max_tokens=MAX_TOKENS, system=system, tools=tools, messages=msgs,
                                    cache_control={"type": "ephemeral"})
-        trace.add_call(agent, model, r.usage, time.time() - t)
+        trace.add_call(agent, model, r.usage, time.time() - t, r.stop_reason)
         msgs.append({"role": "assistant", "content": r.content})
         uses = [b for b in r.content if b.type == "tool_use"]
         if r.stop_reason != "tool_use" or not uses:
@@ -124,7 +141,7 @@ def run_single(user):
         "input_schema": S({"name": {"type": "string", "enum": list(SKILLS)}}, ["name"])}]
     t0 = time.time()
     ans, turns = run_loop("main", system, tools, user, trace, extra_tools={"load_skill": load_skill}, max_turns=12)
-    return dict(answer=ans, latency=time.time() - t0, turns=turns, skills=loaded, routed=[], calls=trace.calls, tools=trace.tools)
+    return dict(answer=ans, latency=time.time() - t0, turns=turns, skills=loaded, routed=[], calls=trace.calls, tools=trace.tools, system_prompt=system)
 
 # ---------------- Architecture A: orchestrator + specialist subagents ----------------
 SPECIALIST_TOOLS = {  # org-chart split: each team owns its own tools
@@ -134,23 +151,31 @@ SPECIALIST_TOOLS = {  # org-chart split: each team owns its own tools
     "products": ["check_inventory"],
     "account": ["verify_customer", "get_account"],
 }
-def run_multi(user):
+def run_multi(user, variant="A"):
+    """variant: "A" = 本編の組織図分割 / "A1" (A') = returns担当にも get_shipment を付与 /
+    "A2" (A'') = 部分的に畳んだ構成: orders を本体に畳み、オーケストレーターが verify_customer/get_order を直接持つ。shipping等は専門エージェントのまま"""
     trace = Trace(); routed = []
+    spec_tools = dict(SPECIALIST_TOOLS)
+    if variant == "A1": spec_tools["returns"] = spec_tools["returns"] + ["get_shipment"]
+    specialists = [k for k in SKILLS if not (variant == "A2" and k == "orders")]
     def make_delegate(name):
         def delegate(request):
             routed.append(name)
             sys = BASE_RULES + f"\n\nあなたは「{name}」担当のスペシャリストです。オーケストレーターからの依頼に答え、結果を簡潔に要約して返してください。\n\n" + SKILLS[name]
-            ans, _ = run_loop(f"sub:{name}", sys, [TOOL_DEFS[t] for t in SPECIALIST_TOOLS[name]], request, trace, max_turns=8)
+            ans, _ = run_loop(f"sub:{name}", sys, [TOOL_DEFS[t] for t in spec_tools[name]], request, trace, max_turns=8)
             return ans
         return delegate
     system = BASE_RULES + "\n\nあなたはオーケストレーターです。自分ではデータを参照できません。以下の専門エージェントに依頼(ask_<name>)し、その回答をもとに顧客への最終回答を書いてください。依頼文には顧客のメール・注文番号など必要な情報をすべて含めること。複数のエージェントへ同時に依頼してもよい。\n" + \
-        "\n".join(f"- ask_{k}: {v} (使えるツール: {', '.join(SPECIALIST_TOOLS[k])})" for k, v in SKILL_DESC.items())
+        "\n".join(f"- ask_{k}: {SKILL_DESC[k]} (使えるツール: {', '.join(spec_tools[k])})" for k in specialists)
+    if variant == "A2":
+        system = system.replace("自分ではデータを参照できません。", "注文照会(verify_customer / get_order)は自分で直接行えます。それ以外のデータは参照できません。") + "\n\n## 注文スキル(本体に統合済み)\n" + SKILLS["orders"]
     tools = [{"name": f"ask_{k}", "description": f"{k}担当エージェントに依頼する: {SKILL_DESC[k]}",
-              "input_schema": S({"request": {"type": "string"}}, ["request"])} for k in SKILLS]
-    extra = {f"ask_{k}": make_delegate(k) for k in SKILLS}
+              "input_schema": S({"request": {"type": "string"}}, ["request"])} for k in specialists]
+    if variant == "A2": tools = [TOOL_DEFS["verify_customer"], TOOL_DEFS["get_order"]] + tools
+    extra = {f"ask_{k}": make_delegate(k) for k in specialists}
     t0 = time.time()
     ans, turns = run_loop("orchestrator", system, tools, user, trace, extra_tools=extra, max_turns=8)
-    return dict(answer=ans, latency=time.time() - t0, turns=turns, skills=[], routed=routed, calls=trace.calls, tools=trace.tools)
+    return dict(answer=ans, latency=time.time() - t0, turns=turns, skills=[], routed=routed, calls=trace.calls, tools=trace.tools, system_prompt=system)
 
 def cost(calls):
     tot = 0.0
