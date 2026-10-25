@@ -468,3 +468,4 @@ bench/subagent-fold/
 
 - Building agents: When to fold subagents into your main agent loop (Anthropic): https://claude.com/ja/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop
 - Claude API Pricing: https://platform.claude.com/docs/en/about-claude/pricing
+
