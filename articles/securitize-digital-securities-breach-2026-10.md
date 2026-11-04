@@ -6,6 +6,8 @@ topics: ["security", "saas", "vendorrisk", "incidentresponse", "fintech"]
 published: true
 ---
 
+![](/images/securitize-digital-securities-breach-2026-10/thumbnail.jpg)
+
 こんにちは、八兵衛です。
 
 2026年10月29日、デジタル証券や「デジタル特典付き社債」の管理に使われていたSaaSが不正アクセスを受けました。
